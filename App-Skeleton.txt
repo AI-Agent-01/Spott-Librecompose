@@ -1,0 +1,351 @@
+Here’s a developer-ready screen skeleton for Spott (Android-first, Material 3, Kotlin/Compose). It’s ordered from a brand-new user’s first launch through to the Home (map) experience, and then the rest of the Driver + Host surfaces. I’ve included concrete UI components per screen so engineers/designers can align quickly. Authentication = Firebase Auth; maps = Google Maps Compose. (References to requirements come from your PRD.)
+
+0) First-Launch & Account Creation
+
+Cold Splash / Brand Boot
+
+Purpose: quick brand moment while app warms + remote config.
+
+Key UI: Full-bleed logo/animation, progress indicator.
+
+Intro Carousel (3–4 cards)
+
+Purpose: pitch Driver & Host promises; set expectations.
+
+Key UI: Paged cards (Material 3), “Continue” FilledButton, “Sign in” TextButton.
+
+Copy themes: “Fastest way to find & book parking” / “Earn from your driveway.”
+
+Onboarding — Pre-Permission Education (Location)
+
+Purpose: explain why location is needed before OS prompt.
+
+Key UI: Illustration, bullet benefits, “Enable location” FilledButton → triggers OS dialog, “Decide later” TextButton (degrades to default city center).
+
+Onboarding — Pre-Permission Education (Notifications)
+
+Purpose: explain chat/booking reminders prior to OS prompt.
+
+Key UI: Explainer, “Allow notifications” FilledButton → OS dialog; “Not now” TextButton.
+
+Legal & Consent Gate
+
+Purpose: present Terms & Privacy (links), optional analytics consent.
+
+Key UI: Checkbox (“I agree”), TextButtons for policy pages.
+
+Auth Entry
+
+Purpose: choose sign-in method.
+
+Key UI:
+
+Primary: “Continue with Google” (Google One-Tap/Sign-In button).
+
+Secondary: Email + Password TextFields, “Create account”/“Sign in” toggle, “Continue” FilledButton, “Forgot password?” TextButton.
+
+Edge: Apple Sign-In appears on iOS later; we still list for parity in PRD.
+
+Email Verification Deep-Link Screen (if email sign-up)
+
+Purpose: confirm and advance post-verify.
+
+Key UI: Success/failed states, “Continue” button.
+
+Password Reset
+
+Purpose: send reset and confirm.
+
+Key UI: Email field, “Send reset link”, success banner.
+
+1) New-User Setup (Post-Auth, pre-Home)
+
+Pick Your Path (Optional quick setup)
+
+Purpose: speed to value; suggest next steps.
+
+Key UI: Two large cards: “I’m here to park” (default) and “I want to host,” with CTAs.
+
+Notes: Hosting can be entered anytime from Profile/Hub later.
+
+Add Vehicle (Driver Setup)
+
+Purpose: prefill booking car details.
+
+Key UI: Form (license plate, make, model, color), “Save” button, list with “Set default” RadioButton; error hints (plate format).
+
+Add Payment Method (Driver Setup)
+
+Purpose: store card via Stripe; enable one-tap booking.
+
+Key UI: Card entry view (Stripe), list of saved methods, “Set default”, Google Pay chip when available. (No raw PAN stored).
+
+After this, users land on Home (Map). If they skipped setup, empty-state nudges appear at relevant moments (e.g., when booking).
+
+2) Driver — Core Home & Booking
+
+Home — Map (Default Landing)
+
+Purpose: the “Find Parking” map.
+
+Key UI (Google Maps Compose):
+
+Top: SearchBar with Places Autocomplete; “Where to?” placeholder.
+
+Map: user location dot; custom price markers with clustering; Top Spott highlighted pin + small sticky card; “Search this area” FAB; My Location FAB; Filters (future).
+
+Bottom: Marker Detail bottom sheet (photo/thumbnail, address, hourly rate, rating, distance/time).
+
+States: skeletons while fetching; empty state; error w/ retry.
+
+Perf: smooth pan/zoom, 60fps.
+
+Booking Sheet (Bottom Sheet from pin/card)
+
+Purpose: configure time & pay.
+
+Key UI:
+
+Duration selector (slider or stepper 15/30-min increments) with real-time Start/End chips and Total price calculation.
+
+Payment chip (default card / Google Pay).
+
+Primary CTA: “Book now” (one-tap).
+
+Secondary: “See details / house rules.”
+
+Edge: validation hints (min/max duration).
+
+Booking Confirmation / Transition to Navigation
+
+Purpose: acknowledge, then guide.
+
+Key UI: Success state, address, start/end, “Navigate” FilledButton, “Share details” icon.
+
+Auto-advance into navigation or return to map with Active Session banner visible.
+
+Navigation View (In-app Route)
+
+Purpose: route to entrance coordinates (not just postal address).
+
+Key UI: Map route polyline, ETA/time remaining, “Open in Google Maps” TextButton.
+
+Active Session Banner (Global, while active)
+
+Purpose: persistent control while parked.
+
+Key UI: Sticky banner w/ address, countdown timer, “Extend”, “Chat”, “Navigate”, “End early/Cancel” (policy-aware). Color shifts near expiry. Appears atop Home & relevant screens.
+
+Extend Time Flow
+
+Purpose: add time if no conflict.
+
+Key UI: Mini sheet with extra duration selector, updated price, “Confirm extension”. Error state if next booking blocks.
+
+Cancel / End Session Flow
+
+Purpose: handle policy windows + confirmations.
+
+Key UI: Policy summary, confirm dialog, result toast/snackbar.
+
+Recent Bookings (List)
+
+Purpose: manage Active & Past.
+
+Key UI: Tabs (Active / Past), cards with date/time, price, status; per-item actions: Navigate, Chat, Extend (active), Book again, View receipt (past). Empty-states.
+
+Booking Detail (from list or banner)
+
+Purpose: single booking timeline.
+
+Key UI: Map thumbnail, address, start/end, vehicle, payment, Receipt link (PDF/Stripe), House rules, Report issue.
+
+3) Communication & Trust
+
+Inbox
+
+Purpose: booking-scoped conversations only (no open DMs).
+
+Key UI: Threads grouped by upcoming/active (openable from T-60 minutes) and “Recently closed” (24h post end). Badges for unread. Empty-state explains windowing.
+
+Chat Thread
+
+Purpose: coordinate arrival/parking.
+
+Key UI: Header with booking context (address + time); message list, typing indicator; message input; Report/Block in overflow; (optional) image attach if policies allow. Auto-archive + read-only 24h after end. Push notifications integrated.
+
+Rate Your Experience (Post-booking modal)
+
+Purpose: mutual ratings/review.
+
+Key UI: 5-star control, 100-char comment, “Submit”. One per side per booking. Host/listing average shown elsewhere.
+
+4) Profile, Wallet & Settings
+
+Profile Home
+
+Purpose: user anchor.
+
+Key UI: Avatar/initials, name, email, links: Payment Methods, Vehicles, Notifications, Security, Legal, Become a Host, Log out.
+
+Payment Methods
+
+Purpose: manage Stripe-backed methods.
+
+Key UI: List of cards, default selector, Add card (Stripe view), Remove. Google Pay availability chip. (No PAN stored).
+
+Vehicles
+
+Purpose: manage vehicles.
+
+Key UI: List + “Add vehicle” form; edit/delete; Set default. Validation on plates.
+
+Security & Sessions
+
+Purpose: protect the account.
+
+Key UI: Change password (with re-auth), Active sessions/devices list with “Log out” per device, optional 2FA (TOTP) setup (QR + verify).
+
+Notifications Settings
+
+Purpose: per-category control (Chat, Booking Updates, General).
+
+Key UI: Switches, quiet hours info.
+
+Legal & Help
+
+Purpose: docs & support.
+
+Key UI: Terms, Privacy, Community Guidelines, Delete account, Contact support.
+
+5) Host — Onboarding & Listing
+
+Become a Host (Entry)
+
+Purpose: explain requirements & benefits; start wizard.
+
+Key UI: Benefits list, “Start Listing” CTA; KYC + Payouts required messaging.
+
+4-Step Listing Wizard (guided pager; draft saved each step)
+
+Step 1 — Location
+
+Key UI: Address Autocomplete + draggable pin on map; “Entrance instructions” multiline field; error hints; mini preview card. Saves entrance lat/long.
+
+Step 2 — Details
+
+Key UI: Title, Description, Photo uploader (camera/library) with min 3 photos guidance and quality tips. (EXIF scrubbed server-side; moderation downstream.) Amenities tags (e.g., EV charger).
+
+Step 3 — Availability & Pricing
+
+Key UI: Weekly schedule picker (per-day time ranges), Blackout dates calendar, Hourly rate TextField (with currency), optional long-stay discount note (future). Visual summary pill (“Weekdays 9–5”). 15-min buffer policy shown.
+
+Step 4 — Verification & Publish
+
+Key UI: Stripe Identity (KYC) status tile → start/continue; Stripe Connect (Payouts) status tile → start/continue; Liability & policy acceptance checkbox; Publish CTA (disabled until KYC + payouts complete). If not complete, show “Listing pending—complete verification to activate.”
+
+Listing Created / Pending Screen
+
+Purpose: completion state; next steps.
+
+Key UI: Success illustration; if pending, actionable chips to resume KYC/Connect.
+
+6) Host — Hub & Management
+
+Host Hub (Dashboard)
+
+Purpose: one-look ops + insights.
+
+Key UI:
+
+Live Availability Toggle (Active/Inactive).
+
+Metrics (Earnings, Utilization, Avg duration) with D/W/M SegmentedButtons.
+
+Listing Card (address, price, schedule summary) with Edit.
+
+Tips & Announcements feed (CMS-driven).
+
+“View upcoming bookings” (optional list).
+
+Payouts info note (“Payouts via Stripe”).
+
+Edit Listing (re-opens wizard with current data)
+
+Purpose: quick changes to price, photos, schedule.
+
+Key UI: Stepper with save; policy notes if major changes.
+
+7) System Surfaces (Cross-cutting)
+
+Notification Center
+
+Purpose: in-app log of important events (chat, booking updates).
+
+Key UI: list with categories/badges; deep-links into Chat/Booking Detail.
+
+Global Error / Maintenance
+
+Purpose: graceful degrade (API down, quota exceeded).
+
+Key UI: Full-screen message with retry, support link.
+
+Empty States & Skeletons
+
+Purpose: polish and guidance when no data or loading.
+
+Key UI: Illustrated placeholders; shimmering lists.
+
+App Update / Feature Flag Surfaces
+
+Purpose: blocked flows behind flags; soft/hard update prompts.
+
+Key UI: Dialogs/sheets with CTAs.
+
+Navigation & Routes (suggested IDs)
+
+splash, intro, perm.location, perm.push, consent, auth.entry, auth.verify, auth.reset
+
+setup.path, setup.vehicle, setup.payment
+
+home.map, home.markerDetails, booking.sheet, booking.confirm, nav.route, session.extend, session.end, bookings.list, booking.detail
+
+inbox, chat.thread, rate.modal
+
+profile.home, profile.payments, profile.vehicles, profile.security, profile.notifications, legal.help
+
+host.entry, host.wizard.location, host.wizard.details, host.wizard.availability, host.wizard.verify, host.created
+
+host.hub, host.edit
+
+notifications.center, system.error, system.empty, system.update
+
+Component Cheatsheet (per user POV)
+
+Map stack: GoogleMap (Compose), custom PriceMarker composables (with cluster variants), TopSpottCard mini.
+
+Search: Material 3 SearchBar + Places Autocomplete dropdown; “Search this area” FAB.
+
+Booking: ModalBottomSheet, DurationSlider, SummaryRow (price/time), Primary CTA, ErrorText.
+
+Session: Persistent CountdownBanner with action chips (Extend/Chat/Navigate).
+
+Chat: Thread list + MessageList, InputBar, Report sheet; push hooks.
+
+Host wizard: StepperHeader, MapPicker, PhotoGrid (min 3), SchedulePicker (weekly), Calendar for blackouts, PriceField, StatusTiles for KYC/Connect, “Publish” button (gated).
+
+Hub: KPI cards (D/W/M), Availability Switch, ListingCard, Tips feed.
+
+Notes tying back to your PRD
+
+Top Spott highlight + ranking is a first-class UI element on Home.
+
+Chat is booking-scoped only, opens T-60 min before start, auto-archives +24h: Inbox and Thread follow this lifecycle.
+
+KYC + Connect strictly gate listing visibility; wizard’s final step and Hub state reflect this.
+
+Entrance coordinates (not just address) are shown/used in Navigation & cards.
+
+Receipts surface from booking details (Stripe).
+
+If you’d like, I can drop this into a one-pager “Screen Matrix” (route → purpose → primary components → states) or a clickable FIGMA-ready checklist.

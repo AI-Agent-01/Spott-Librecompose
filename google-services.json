@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "810028152148",
+    "project_id": "spott-app-dev",
+    "storage_bucket": "spott-app-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810028152148:android:0b8fe8861131b6280044c1",
+        "android_client_info": {
+          "package_name": "com.getspott.spott"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "810028152148-qneno736682usnpsel1t66ae5mabf22g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.getspott.spott",
+            "certificate_hash": "e1d681ed2c2e3566e5d51bc35855078da361ca3d"
+          }
+        },
+        {
+          "client_id": "810028152148-h45gklsdqm66b3b83cud1s47m2rbfa5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuAjwhr9ilvR9qT_Wfmxpgv0L98ccAcbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "810028152148-h45gklsdqm66b3b83cud1s47m2rbfa5h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "810028152148-jpi2e2le8v15a5fhomfpivfs2p671jnm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.getspott.spott"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
