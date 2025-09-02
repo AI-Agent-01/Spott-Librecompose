@@ -13,7 +13,8 @@
       "Read(/mnt/c/Users/Jacob/AppData/Local/Android/Sdk/**)",
       "Bash(export:*)",
       "Read(/mnt/c/Users/Jacob/AppData/Local/Android/Sdk/**)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []
