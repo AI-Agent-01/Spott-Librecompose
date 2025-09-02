@@ -30,10 +30,14 @@ import com.spott.app.ui.screens.*
 import com.spott.feature.parking.FindParkingScreen
 import com.spott.feature.parking.FindParkingState
 import com.spott.feature.parking.FindParkingIntent
+import com.spott.feature.parking.FindParkingEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.spott.feature.parking.FindParkingViewModel
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Scaffold
 
 /**
  * Navigation display for Spott app with production-ready animations
@@ -85,16 +89,31 @@ fun SpottNavDisplay(
             ) {
                 val findParkingViewModel: FindParkingViewModel = viewModel()
                 val state by findParkingViewModel.state.collectAsState()
-                
-                FindParkingScreen(
-                    state = state,
-                    onIntent = { intent ->
-                        when (intent) {
-                            is FindParkingIntent.OnSearchBarClick -> navigator.navigateToSearch()
-                            else -> findParkingViewModel.handleIntent(intent)
+                val snackbarHostState = remember { SnackbarHostState() }
+
+                // Show one-off snackbars from effects (e.g., destination set)
+                LaunchedEffect(Unit) {
+                    findParkingViewModel.effects.collect { effect ->
+                        when (effect) {
+                            is FindParkingEffect.ShowToast -> snackbarHostState.showSnackbar(effect.message)
+                            else -> {}
                         }
                     }
-                )
+                }
+
+                Scaffold(
+                    snackbarHost = { SnackbarHost(snackbarHostState) }
+                ) { _ ->
+                    FindParkingScreen(
+                        state = state,
+                        onIntent = { intent ->
+                            when (intent) {
+                                is FindParkingIntent.OnSearchBarClick -> navigator.navigateToSearch()
+                                else -> findParkingViewModel.handleIntent(intent)
+                            }
+                        }
+                    )
+                }
             }
             
             entry<SearchDestination>(
@@ -122,9 +141,8 @@ fun SpottNavDisplay(
                     )
                 }
             ) { route ->
-                SearchDestinationScreen(
-                    // TODO: Pass route.query to screen when implemented
-                    onNavigateUp = { navigator.navigateUp() }
+                SearchDestinationRoute(
+                    navigator = navigator
                 )
             }
             

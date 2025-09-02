@@ -1,0 +1,83 @@
+[versions]
+# Regular libraries: keep as up to date as possible.
+alchemist = "0.2.0"
+androidx-activity = "1.10.1"
+bytesize = "2.0.0"
+compass = "2.4.0"
+htmlConverterCompose = "1.1.0"
+kermit = "2.0.6"
+kotlin-wrappers = "2025.8.19"
+kotlinx-coroutines = "1.10.2"
+ktor = "3.2.3"
+maplibre-android-sdk = "11.13.0"
+maplibre-android-plugins = "3.0.2"
+maplibre-js = "4.7.1"              # TODO: is outdated; update to v5.x
+spatialk = "0.3.0"                 # TODO: is unmaintained; watch for https://github.com/maplibre/maplibre-java/pull/40
+
+# Regular tools: keep as up to date as possible
+gradle-dokka = "2.0.0"
+gradle-jgitver = "0.10.0-rc03"
+gradle-ksp = "2.2.0-2.0.2"
+gradle-mavenPublish = "0.34.0"
+gradle-mkdocs = "4.0.1"
+gradle-spmForKmp = "0.11.3"
+simplejni = "3.14"
+
+# Libraries coupled to Compose: keep Compose up to date and set others accordingly.
+# https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html#jetpack-compose-artifacts-used
+gradle-compose = "1.8.2"
+#noinspection GradleDependency: follow version matrix above
+androidx-compose = "1.8.2"
+#noinspection GradleDependency: follow version matrix above
+androidx-navigation = "2.9.0-beta03"
+
+# Android and Kotlin: Keep Kotlin up to date and set Android accordingly.
+# Also note the Gradle and XCode versions in the matrix!
+# https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-compatibility-guide.html
+gradle-kotlin = "2.2.0"
+#noinspection AndroidGradlePluginVersion: follow version matrix above
+gradle-android = "8.10.0"
+
+[libraries]
+alchemist = { module = "io.github.kevincianfarini.alchemist:alchemist", version.ref = "alchemist" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+androidx-composeUi-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-compose" }
+androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
+bytesize = { module = "me.saket.bytesize:bytesize", version.ref = "bytesize" }
+compass-geolocation-core = { module = "dev.jordond.compass:geolocation", version.ref = "compass" }
+compass-geolocation-mobile = { module = "dev.jordond.compass:geolocation-mobile", version.ref = "compass" }
+compass-geolocation-browser = { module = "dev.jordond.compass:geolocation-browser", version.ref = "compass" }
+htmlConverterCompose = { module = "be.digitalia.compose.htmlconverter:htmlconverter", version.ref = "htmlConverterCompose" }
+kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
+kotlin-wrappers-js = { group = "org.jetbrains.kotlin-wrappers", name = "kotlin-js", version.ref = "kotlin-wrappers" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinxJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+maplibre-android = { module = "org.maplibre.gl:android-sdk", version.ref = "maplibre-android-sdk" }
+maplibre-androidOpenGL = { module = "org.maplibre.gl:android-sdk-opengl", version.ref = "maplibre-android-sdk" }
+maplibre-androidVulkan = { module = "org.maplibre.gl:android-sdk-vulkan", version.ref = "maplibre-android-sdk" }
+maplibre-androidDebug = { module = "org.maplibre.gl:android-sdk-debug", version.ref = "maplibre-android-sdk" }
+maplibre-android-scalebar = { module = "org.maplibre.gl:android-plugin-scalebar-v9", version.ref = "maplibre-android-plugins" }
+simplejni-annotations = { module = "io.github.gershnik:smjni-jnigen-annotations", version.ref = "simplejni" }
+simplejni-kprocessor = { module = "io.github.gershnik:smjni-jnigen-kprocessor", version.ref = "simplejni" }
+spatialk-geojson = { group = "io.github.dellisd.spatialk", name = "geojson", version.ref = "spatialk" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "gradle-android" }
+android-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "gradle-android" }
+android-lint = { id = "com.android.lint", version.ref = "gradle-android" }
+compose = { id = "org.jetbrains.compose", version.ref = "gradle-compose" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "gradle-dokka" }
+jgitver = { id = "fr.brouillard.oss.gradle.jgitver", version.ref = "gradle-jgitver" }
+kotlin-composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "gradle-kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "gradle-kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "gradle-kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "gradle-ksp" }
+mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "gradle-mavenPublish" }
+mkdocs = { id = "ru.vyarus.mkdocs-build", version.ref = "gradle-mkdocs" }
+spmForKmp = { id = "io.github.frankois944.spmForKmp", version.ref = "gradle-spmForKmp" }

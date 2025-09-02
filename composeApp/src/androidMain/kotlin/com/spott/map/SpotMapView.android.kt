@@ -16,7 +16,18 @@ import org.maplibre.compose.layers.*
 import org.maplibre.compose.map.*
 import org.maplibre.compose.sources.*
 import org.maplibre.compose.settings.*
+import org.maplibre.compose.map.OrnamentOptions
 import kotlin.time.Duration.Companion.milliseconds
+import org.maplibre.compose.material3.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.padding
 
 /**
  * Android actual implementation of SpotMapView using MapLibre Compose
@@ -60,6 +71,7 @@ actual fun SpotMapView(
     }
     
     Box(modifier = modifier.fillMaxSize()) {
+        // Main map surface
         MaplibreMap(
             modifier = Modifier.fillMaxSize(),
             baseStyle = BaseStyle.Uri(
@@ -85,6 +97,12 @@ actual fun SpotMapView(
                     scrollEnabled = props.gestureSettings.scrollEnabled,
                     zoomEnabled = props.gestureSettings.zoomEnabled,
                     doubleTapToZoomEnabled = props.gestureSettings.doubleTapToZoomEnabled
+                ),
+                ornamentOptions = OrnamentOptions(
+                    isLogoEnabled = false,
+                    isAttributionEnabled = false,
+                    isCompassEnabled = false,
+                    isScaleBarEnabled = false
                 )
             )
         ) {
@@ -104,6 +122,30 @@ actual fun SpotMapView(
                 PolylineLayers(polylines = props.polylines)
             }
         }
+        
+        
+        // Attribution overlay - REQUIRED for MapTiler compliance
+        AttributionOverlay(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(8.dp)
+        )
+        
+        // MapLibre logo and scale bar
+        DisappearingScaleBar(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(8.dp),
+            cameraState = cameraState
+        )
+        
+        // Compass button
+        DisappearingCompassButton(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(8.dp),
+            cameraState = cameraState
+        )
         
         // Track camera idle events
         LaunchedEffect(cameraState.isCameraMoving) {

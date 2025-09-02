@@ -2,13 +2,17 @@ package com.spott.feature.parking
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.spott.core.analytics.Analytics
+import com.spott.core.analytics.NoopAnalytics
 import com.spott.map.LatLng
 import com.spott.map.LatLngBounds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class FindParkingViewModel : ViewModel() {
+class FindParkingViewModel(
+    private val analytics: Analytics = NoopAnalytics
+) : ViewModel() {
     
     private val _state = MutableStateFlow(FindParkingState())
     val state: StateFlow<FindParkingState> = _state.asStateFlow()
@@ -147,6 +151,18 @@ class FindParkingViewModel : ViewModel() {
             
             // Load parking spots around destination
             loadParkingSpots(location)
+
+            // Notify user
+            _effects.emit(FindParkingEffect.ShowToast("Destination set"))
+
+            // Track analytics
+            analytics.track(
+                event = "destination_set",
+                properties = mapOf(
+                    "lat" to location.lat,
+                    "lng" to location.lng
+                )
+            )
         }
     }
     
