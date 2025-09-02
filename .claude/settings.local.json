@@ -1,7 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git branch:*)",
+      "Bash(git init:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(./gradlew:*)",
+      "Bash(claude --version)",
+      "Read(/mnt/c/Users/Jacob/AppData/Local/Android/Sdk/**)",
+      "Bash(export:*)",
+      "Read(/mnt/c/Users/Jacob/AppData/Local/Android/Sdk/**)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
